@@ -83,6 +83,13 @@ class MainActivity : AppCompatActivity() {
         FitnessOptions.builder()
                 .addDataType(DataType.TYPE_ACTIVITY_SEGMENT, FitnessOptions.ACCESS_WRITE)
                 .addDataType(DataType.TYPE_SPEED, FitnessOptions.ACCESS_WRITE)
+                .addDataType(DataType.TYPE_HEART_RATE_BPM, FitnessOptions.ACCESS_READ) //comment to fix
+                .addDataType(DataType.TYPE_STEP_COUNT_CADENCE, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_HEART_POINTS, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_MOVE_MINUTES, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_DISTANCE_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
                 .build()
     }
 
@@ -177,7 +184,9 @@ class MainActivity : AppCompatActivity() {
      */
     private fun getGoogleAccount() = GoogleSignIn.getAccountForExtension(this, fitnessOptions)
 
-    private fun insertAndVerifySession() = insertSession().continueWith { verifySession() }
+    //private fun insertAndVerifySession() = insertSession().continueWith { verifySession() }
+    private fun insertAndVerifySession() = verifySession()
+
 
     /**
      * Creates and executes a [SessionInsertRequest] using [  ] to insert a session.
@@ -212,6 +221,7 @@ class MainActivity : AppCompatActivity() {
         // Invoke the Sessions API to fetch the session with the query and wait for the result
         // of the read request. Note: Fitness.SessionsApi.readSession() requires the
         // ACCESS_FINE_LOCATION permission.
+
         return Fitness.getSessionsClient(this, getGoogleAccount())
                 .readSession(readRequest)
                 .addOnSuccessListener { sessionReadResponse ->
@@ -230,7 +240,7 @@ class MainActivity : AppCompatActivity() {
                         }
                     }
                 }
-                .addOnFailureListener { Log.i(TAG, "Failed to read session") }
+                .addOnFailureListener { exception -> Log.e(TAG, "Failed to read session $exception", exception) }
         // [END read_session]
     }
 
@@ -343,18 +353,28 @@ class MainActivity : AppCompatActivity() {
         val now = Date()
         cal.time = now
         val endTime = cal.timeInMillis
-        cal.add(Calendar.WEEK_OF_YEAR, -1)
+        cal.add(Calendar.YEAR, -5)
         val startTime = cal.timeInMillis
 
         // Build a session read request
         // [START build_read_session_request]
-        val sessionRequest = SessionReadRequest.Builder()
+        var srr = SessionReadRequest.Builder()
                 .setTimeInterval(startTime, endTime, TimeUnit.MILLISECONDS)
                 .read(DataType.TYPE_SPEED)
-                .setSessionName(SAMPLE_SESSION_NAME)
+                .read(DataType.TYPE_HEART_RATE_BPM) //comment to fix
+                .read(DataType.TYPE_STEP_COUNT_CADENCE)
+                .read(DataType.TYPE_HEART_POINTS)
+                .read(DataType.TYPE_MOVE_MINUTES)
+                .read(DataType.TYPE_DISTANCE_DELTA)
+                .read(DataType.TYPE_STEP_COUNT_DELTA)
+                .read(DataType.TYPE_CALORIES_EXPENDED)
+                .read(DataType.TYPE_ACTIVITY_SEGMENT)
+                .enableServerQueries()
+                //.setSessionName(SAMPLE_SESSION_NAME)
                 .build()
         // [END build_read_session_request]
-        return sessionRequest
+
+        return srr
     }
 
     private fun dumpDataSet(dataSet: DataSet) {
@@ -527,7 +547,7 @@ class MainActivity : AppCompatActivity() {
                             val intent = Intent()
                             intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
                             val uri = Uri.fromParts("package",
-                                    BuildConfig.APPLICATION_ID, null)
+                                    "com.google.android.gms.fit.samples.basichistorysessionskotlin", null)
                             intent.data = uri
                             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             startActivity(intent)

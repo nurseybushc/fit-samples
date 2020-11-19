@@ -333,21 +333,23 @@ class MainActivity : AppCompatActivity() {
                 // when permissions are denied. Otherwise, your app could appear unresponsive to
                 // touches or interactions which have required permissions.
 
-                Snackbar.make(
-                        findViewById(R.id.main_activity_view),
-                        R.string.permission_denied_explanation,
-                        Snackbar.LENGTH_INDEFINITE)
-                        .setAction(R.string.settings) {
-                            // Build intent that displays the App settings screen.
-                            val intent = Intent()
-                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                            val uri = Uri.fromParts("package",
-                                    BuildConfig.APPLICATION_ID, null)
-                            intent.data = uri
-                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                            startActivity(intent)
-                        }
-                        .show()
+//                Snackbar.make(
+//                        findViewById(R.id.main_activity_view),
+//                        R.string.permission_denied_explanation,
+//                        Snackbar.LENGTH_INDEFINITE)
+//                        .setAction(R.string.settings) {
+//                            // Build intent that displays the App settings screen.
+//                            val intent = Intent()
+//                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+//                            val uri = Uri.fromParts("package",
+//                                    BuildConfig.APPLICATION_ID, null)
+//                            intent.data = uri
+//                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//                            startActivity(intent)
+//                        }
+//                        .show()
+
+                Log.e(TAG, "Permission was denied, but is needed for core functionality.")
             }
         }
     }

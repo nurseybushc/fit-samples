@@ -4,32 +4,39 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/root"
     android:background="@color/black"
     android:padding="@dimen/box_inset_layout_padding"
     tools:context=".MainActivity"
     tools:deviceIds="wear">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/inner_frame_layout_padding">
+
         <Button
             android:id="@+id/btnStart"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/session_start"
-            android:visibility="gone"
-            android:onClick="start"
+            android:text="@string/start"
+            />
+        <Button
+            android:id="@+id/btnList"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/list"
             />
         <Button
             android:id="@+id/btnStop"
-            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/btnList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/session_end"
-            android:visibility="gone"
-            android:onClick="stop"
+            android:text="@string/stop"
             />
+
     </RelativeLayout>
 </androidx.wear.widget.BoxInsetLayout>

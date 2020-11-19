@@ -7,4 +7,6 @@
     <string name="hello_world">Hello Square World!</string>
     <string name="ambient_enter">Enter Ambient State</string>
     <string name="ambient_exit">Exit Ambient State</string>
+    <string name="session_start">Start Session</string>
+    <string name="session_end">End Session</string>
 </resources>

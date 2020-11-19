@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">RunFighterWear</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="start">Start Record</string>
+    <string name="list">List Subs</string>
+    <string name="stop">Stop Record</string>
+</resources>
